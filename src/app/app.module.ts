@@ -24,7 +24,8 @@ import { NavbarComponent } from './features/navbar/navbar.component';
 import { LoginComponent } from './features/login/login.component';
 import { AuthInterceptor } from './interceptor/authen.interceptor';
 import { AccessDeniedComponent } from './features/access-denied/access-denied.component';
-
+import { BookInventoryHistoryComponent } from './features/books/book-inventory-history/book-inventory-history.component';
+import { DialogModule } from 'primeng/dialog';
 @NgModule({
   declarations: [
     AppComponent,
@@ -40,6 +41,7 @@ import { AccessDeniedComponent } from './features/access-denied/access-denied.co
     NavbarComponent,
     LoginComponent,
     AccessDeniedComponent,
+    BookInventoryHistoryComponent,
   ],
   imports: [
     BrowserModule,
@@ -52,7 +54,8 @@ import { AccessDeniedComponent } from './features/access-denied/access-denied.co
     CheckboxModule,
     DropdownModule,
     ConfirmDialogModule,
-    ToastModule
+    ToastModule,
+    DialogModule
   ],
   providers: [
     ConfirmationService,

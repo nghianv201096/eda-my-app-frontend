@@ -4,12 +4,13 @@ import { environment } from 'src/environments/environment';
 import { BookDto } from '../models/books/book.dto';
 import { Observable } from 'rxjs';
 import { ApiResponse } from '../models/api-response.dto';
+import { BookInventoryHistoryDto } from '../models/books/book-inventory-history.dto';
 
 @Injectable({
   providedIn: 'root',
 })
 export class BookService {
-    apiUrl: string = `${environment.baseUrl}/book`;
+  apiUrl: string = `${environment.baseUrl}/book`;
 
   constructor(private http: HttpClient) {}
 
@@ -20,7 +21,17 @@ export class BookService {
 
   // READ
   getBooks(bookName = ''): Observable<ApiResponse<BookDto[]>> {
-    return this.http.get<ApiResponse<BookDto[]>>(`${this.apiUrl}?name=${bookName}`);
+    return this.http.get<ApiResponse<BookDto[]>>(
+      `${this.apiUrl}?name=${bookName}`
+    );
+  }
+
+  getBookInventoryHistories(
+    id: number
+  ): Observable<ApiResponse<BookInventoryHistoryDto[]>> {
+    return this.http.get<ApiResponse<BookInventoryHistoryDto[]>>(
+      `${this.apiUrl}/view-inventory-history/${id}`
+    );
   }
 
   getBookById(id: number): Observable<ApiResponse<BookDto>> {
@@ -35,5 +46,16 @@ export class BookService {
   // DELETE
   deleteBook(id: number): Observable<ApiResponse<string>> {
     return this.http.delete<ApiResponse<string>>(`${this.apiUrl}/${id}`);
+  }
+
+  updateQuantity(
+    id: number,
+    quantity: number,
+    direction: number
+  ): Observable<ApiResponse<string>> {
+    return this.http.put<ApiResponse<string>>(
+      `${this.apiUrl}/update-inventory/${id}`,
+      { quantity, direction }
+    );
   }
 }

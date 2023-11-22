@@ -16,6 +16,8 @@ import { BookService } from 'src/app/services/book.service';
 export class BookListComponent {
   books: BookDto[] = [];
   bookTypes = BookTypeEnum.All;
+  selectedBook: BookDto | null = null;
+  showHistory: boolean = false;
   searchData = {
     bookName: '',
   };
@@ -36,8 +38,7 @@ export class BookListComponent {
   }
 
   loadBooks() {
-    this.bookService.getBooks(this.searchData.bookName)
-      .subscribe((data) => {
+    this.bookService.getBooks(this.searchData.bookName).subscribe((data) => {
       if (data.isSuccessful) {
         this.books = data.data ?? [];
       } else {
@@ -70,5 +71,32 @@ export class BookListComponent {
         });
       },
     });
+  }
+
+  changeQuantity(product: BookDto, isAdded: boolean) {
+    this.bookService
+      .updateQuantity(product.id, 10, isAdded ? 1 : -1)
+      .subscribe((data) => {
+        if (data.isSuccessful) {
+          this.messageService.add({
+            severity: 'success',
+            summary: 'Success',
+            detail: 'Update qantity book successfully!',
+          });
+        } else {
+          this.messageService.add({
+            severity: 'error',
+            summary: 'Error',
+            detail: data.message,
+          });
+        }
+      });
+
+    this.reload();
+  }
+
+  viewHistory(book: BookDto) {
+    this.selectedBook = book;
+    this.showHistory = true;
   }
 }

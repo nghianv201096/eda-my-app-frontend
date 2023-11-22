@@ -4,4 +4,5 @@ export class BookDto {
     author!: string;
     name!: string;
     locked!: boolean;
+    quantity!: number;
 }
