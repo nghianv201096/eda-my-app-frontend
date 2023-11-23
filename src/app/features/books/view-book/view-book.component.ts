@@ -12,7 +12,7 @@ import { BookService } from 'src/app/services/book.service';
 })
 export class ViewBookComponent implements OnInit {
   book: BookDto = new BookDto();
-  id!: number;
+  id!: string;
   types = BookTypeEnum.All;
 
   constructor(
@@ -38,7 +38,7 @@ export class ViewBookComponent implements OnInit {
     });
   }
 
-  delete(id: number) {
+  delete(id: string) {
     this.confirmationService.confirm({
       message: 'Are you sure want to delete this book?',
       accept: () => {

@@ -17,8 +17,8 @@ export class BookInventoryHistoryComponent {
 
   ngOnChanges(changes: SimpleChanges): void {
     // Check if the 'inputData' property changed
-    if (!!changes['book']) {
-      this.loadHistory();
+    if (!!changes['book'] && !!this.book?.inventoryHistories) {
+      this.histories = this.book.inventoryHistories;
     }
   }
 
@@ -29,11 +29,12 @@ export class BookInventoryHistoryComponent {
     }
 
     this.bookService
-      .getBookInventoryHistories(this.book.id)
+      .getBookById(this.book.id)
       .subscribe((data) => {
         if (data.isSuccessful) {
-          this.histories = data.data ?? [];
+          this.histories = data.data?.inventoryHistories ?? [];
         } else {
+          this.histories = [];
         }
       });
   }

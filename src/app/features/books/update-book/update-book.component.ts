@@ -20,7 +20,7 @@ export class UpdateBookComponent {
     private messageService: MessageService
   ) {}
 
-  id!: number;
+  id!: string;
   types = BookTypeEnum.All;
 
   form = this.fb.group({

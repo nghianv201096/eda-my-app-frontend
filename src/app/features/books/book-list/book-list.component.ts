@@ -46,7 +46,7 @@ export class BookListComponent {
     });
   }
 
-  delete(id: number) {
+  delete(id: string) {
     this.confirmationService.confirm({
       message: 'Are you sure want to delete this book?',
       accept: () => {
@@ -75,7 +75,12 @@ export class BookListComponent {
 
   changeQuantity(product: BookDto, isAdded: boolean) {
     this.bookService
-      .updateQuantity(product.id, 10, isAdded ? 1 : -1)
+      .updateQuantity(
+        product.id,
+        10,
+        isAdded ? 1 : -1,
+        isAdded ? 'Increase by 10' : 'Decrease by 10'
+      )
       .subscribe((data) => {
         if (data.isSuccessful) {
           this.messageService.add({
@@ -90,9 +95,9 @@ export class BookListComponent {
             detail: data.message,
           });
         }
+        this.reload();
       });
 
-    this.reload();
   }
 
   viewHistory(book: BookDto) {

@@ -10,52 +10,46 @@ import { BookInventoryHistoryDto } from '../models/books/book-inventory-history.
   providedIn: 'root',
 })
 export class BookService {
-  apiUrl: string = `${environment.baseUrl}/book`;
+  apiReadUrl: string = `${environment.baseUrl}/readbook`;
+  apiWriteUrl: string = `${environment.baseUrl}/writebook`;
 
   constructor(private http: HttpClient) {}
 
   // CREATE
   createBook(book: BookDto): Observable<ApiResponse<number>> {
-    return this.http.post<ApiResponse<number>>(`${this.apiUrl}`, book);
+    return this.http.post<ApiResponse<number>>(`${this.apiWriteUrl}/create`, book);
   }
 
   // READ
   getBooks(bookName = ''): Observable<ApiResponse<BookDto[]>> {
     return this.http.get<ApiResponse<BookDto[]>>(
-      `${this.apiUrl}?name=${bookName}`
+      `${this.apiReadUrl}/get-all?name=${bookName}`
     );
   }
 
-  getBookInventoryHistories(
-    id: number
-  ): Observable<ApiResponse<BookInventoryHistoryDto[]>> {
-    return this.http.get<ApiResponse<BookInventoryHistoryDto[]>>(
-      `${this.apiUrl}/view-inventory-history/${id}`
-    );
-  }
-
-  getBookById(id: number): Observable<ApiResponse<BookDto>> {
-    return this.http.get<ApiResponse<BookDto>>(`${this.apiUrl}/${id}`);
+  getBookById(id: string): Observable<ApiResponse<BookDto>> {
+    return this.http.get<ApiResponse<BookDto>>(`${this.apiReadUrl}/get-by-id/${id}`);
   }
 
   // UPDATE
-  updateBook(id: number, book: BookDto): Observable<ApiResponse<string>> {
-    return this.http.put<ApiResponse<string>>(`${this.apiUrl}/${id}`, book);
+  updateBook(id: string, book: BookDto): Observable<ApiResponse<string>> {
+    return this.http.put<ApiResponse<string>>(`${this.apiWriteUrl}/update/${id}`, book);
   }
 
   // DELETE
-  deleteBook(id: number): Observable<ApiResponse<string>> {
-    return this.http.delete<ApiResponse<string>>(`${this.apiUrl}/${id}`);
+  deleteBook(id: string): Observable<ApiResponse<string>> {
+    return this.http.delete<ApiResponse<string>>(`${this.apiWriteUrl}/delete/${id}`);
   }
 
   updateQuantity(
-    id: number,
+    id: string,
     quantity: number,
-    direction: number
+    direction: number,
+    note: string
   ): Observable<ApiResponse<string>> {
     return this.http.put<ApiResponse<string>>(
-      `${this.apiUrl}/update-inventory/${id}`,
-      { quantity, direction }
+      `${this.apiWriteUrl}/update-inventory`,
+      {id, quantity, direction, note }
     );
   }
 }
