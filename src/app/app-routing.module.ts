@@ -12,8 +12,7 @@ import { ViewBookComponent } from './features/books/view-book/view-book.componen
 const routes: Routes = [
   {
     path: '',
-    pathMatch: 'full',
-    redirectTo: 'home'
+    component: HomeComponent,
   },
   {
     path: 'home',
